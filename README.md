@@ -15,16 +15,9 @@ Wikipedia　を検索する discord スラッシュコマンド。
 
 ## 実行要件
 
-- インターネットに疎通できるどこかのマシンの上でアプリを動かしっぱなしにできる。
-    - node.jsが入っている必要あり。
-
-## 事前準備
-
-
-### repositoryの初期化
-
-1. このrepositoryを動かしたいマシンで `git clone https://github.com/yuchiki/wikipedian.git` する。
-2. 生成されたrepository内で`npm install`する
+以下のどちらかが必要
+- node.jsが動かせるサーバー
+- dockerが動かせるサーバー
 
 ## 秘匿情報の取得
 
@@ -44,13 +37,38 @@ WIKIPEDIAN_GUILD_IDS=先ほどメモしたサーバーID　（複数のサーバ
 WIKIPEDIAN_TOKEN=先ほどメモしたトークン
 ```
 
-## コマンド登録
+## 実行(docker を用いる場合)
 
-`npm run register_commands` と打つ 
+`git pull ghcr.io/yuchiki/wikipedian/wikipedian:latest` を実行。
+
+### コマンド登録
+
+`docker run  --env-file=.env ghcr.io/yuchiki/wikipedian/wikipedian register_commands` と打つ
     - 「Successfully registered application commands.」　と表示されればOK
-    
-## アプリを動かす
 
-### 簡易的な方法
+(kubernetes なら init container にすればよさそう)
 
-`npm run start &` と打つ
+### アプリを動かす
+
+`docker run  --env-file=.env ghcr.io/yuchiki/wikipedian/wikipedian` と打つ
+
+
+
+## 実行(dockerを用いない場合)
+node.js が入っている必要がある
+
+
+### repositoryの初期化
+
+1. このrepositoryを動かしたいマシンで `git clone https://github.com/yuchiki/wikipedian.git` する。
+2. 生成されたrepository内で`npm install`する
+3. さらに `npm run tsc` する
+
+### コマンド登録
+
+`npm run register_commands` と打つ
+    - 「Successfully registered application commands.」　と表示されればOK
+
+### アプリを動かす
+
+`npm run start &` と打つなど
