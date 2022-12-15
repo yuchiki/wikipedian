@@ -39,7 +39,7 @@ WIKIPEDIAN_TOKEN=先ほどメモしたトークン
 
 ## 実行(docker を用いる場合)
 
-`git pull ghcr.io/yuchiki/wikipedian/wikipedian:latest` を実行。
+`docker pull ghcr.io/yuchiki/wikipedian/wikipedian:latest` を実行。
 
 ### コマンド登録
 
