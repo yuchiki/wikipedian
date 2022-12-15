@@ -39,9 +39,9 @@ WIKIPEDIAN_TOKEN=先ほどメモしたトークン
 
 ## 実行(kubernetes を用いる場合)
 
-`kubectl create secret generic wikipedian-secret --from-env-file=../.env` でsecretを作成
+1. `kubectl create secret generic wikipedian-secret --from-env-file=../.env` でsecretを作成
 
-[manifests/wikipedian.yaml](/manifests/wikipedian.yaml)を kubectl apply -f wikipedian.yaml でdeploy
+2. [manifests/wikipedian.yaml](/manifests/wikipedian.yaml)を kubectl apply -f wikipedian.yaml でdeploy
 
 ## 実行(docker を用いる場合)
 
