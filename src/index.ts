@@ -41,21 +41,24 @@ const search_wikipedia = async (language: string, raw_word: string): Promise<str
 
     const word = raw_word.replace(/ /g, "_");
     const URL = `https://${language}.wikipedia.org/wiki/${word}`;
-    console.log(URL);
+    console.log("request: " + URL);
 
     const res = await fetch(URL);
 
     if (res.status == 404) {
+        console.log(URL + " is not found.");
         return `"${raw_word}" is not found.`;
     }
 
     if (res.status >= 400) {
+        console.log(URL + `: error code ${res.status}`);
         return `"${raw_word}": error code ${res.status}`;
     }
 
     const rawHTML = await res.text();
 
     if (rawHTML == null) {
+        console.log(URL + `: HTML is empty.`);
         return `"${raw_word}" is not found.`;
     }
 
