@@ -47,19 +47,19 @@ const search_wikipedia = async (language: string, raw_word: string): Promise<str
 
     if (res.status == 404) {
         console.log(URL + " is not found.");
-        return `"${raw_word}" is not found.`;
+        return `${language}: "${raw_word}" is not found.`;
     }
 
     if (res.status >= 400) {
         console.log(URL + `: error code ${res.status}`);
-        return `"${raw_word}": error code ${res.status}`;
+        return `${language}: "${raw_word}": error code ${res.status}`;
     }
 
     const rawHTML = await res.text();
 
     if (rawHTML == null) {
         console.log(URL + `: HTML is empty.`);
-        return `"${raw_word}" is not found.`;
+        return `${language}: "${raw_word}" is not found.`;
     }
 
     console.log(URL + " is found.");
@@ -73,7 +73,7 @@ const search_wikipedia = async (language: string, raw_word: string): Promise<str
     if (text) {
         return text.replace(/\[[0-9]+\]/g, "");
     } else {
-        return `${raw_word}: empty.`;
+        return `${language}: ${raw_word}: empty.`;
     }
 };
 
