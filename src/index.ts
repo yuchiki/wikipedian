@@ -71,7 +71,7 @@ const search_wikipedia = async (language: string, raw_word: string): Promise<str
         URL;
 
     if (text) {
-        return text;
+        return text.replace(/\[[0-9]+\]/g, "");
     } else {
         return `${raw_word}: empty.`;
     }
