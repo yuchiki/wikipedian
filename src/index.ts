@@ -41,6 +41,7 @@ const search_wikipedia = async (language: string, raw_word: string): Promise<str
 
     const word = raw_word.replace(" ", "_");
     const URL = `https://${language}.wikipedia.org/wiki/${word}`;
+    console.log(URL);
 
     const res = await fetch(URL);
 
