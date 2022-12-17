@@ -62,7 +62,7 @@ const search_wikipedia = async (language: string, raw_word: string): Promise<str
         return `"${raw_word}" is not found.`;
     }
 
-    console.log(URL + "is found.");
+    console.log(URL + " is found.");
 
     const HTML = load(rawHTML)
     const text = language + ": \"" + raw_word + "\"\n" +
