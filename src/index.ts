@@ -59,7 +59,7 @@ const search_wikipedia = async (language: string, raw_word: string): Promise<str
     }
 
     const HTML = load(rawHTML)
-    const text = "\"" + raw_word + "\"\n" +
+    const text = language + ": \"" + raw_word + "\"\n" +
         HTML('.mw-parser-output').find('p:eq(0)').text().trim() +
         HTML('.mw-parser-output').find('p:eq(1)').text().trim() + "\n" +
         URL;
