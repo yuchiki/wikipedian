@@ -39,7 +39,7 @@ const wikipedia_command = async (interaction: CommandInteraction<CacheType>) => 
 
 const search_wikipedia = async (language: string, raw_word: string): Promise<string> => {
 
-    const word = raw_word.replace(" ", "_");
+    const word = raw_word.replace(/ /g, "_");
     const URL = `https://${language}.wikipedia.org/wiki/${word}`;
     console.log(URL);
 
