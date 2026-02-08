@@ -4,7 +4,8 @@
     "start": "bun run src/index.ts",
     "format": "biome format --write src/",
     "lint": "biome lint src/",
-    "check": "biome check --write src/"
+    "check": "biome check --write src/",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "cheerio": "^1.2.0",
