@@ -8,16 +8,7 @@ import {
     SlashCommandBuilder,
 } from "discord.js";
 
-const registerCommands = async () => {
-    const clientId = process.env["WIKIPEDIAN_CLIENT_ID"];
-    const token = process.env["WIKIPEDIAN_TOKEN"];
-
-    if (!clientId || !token) {
-        throw new Error(
-            "WIKIPEDIAN_CLIENT_ID and WIKIPEDIAN_TOKEN must be set",
-        );
-    }
-
+const registerCommands = async (clientId: string, token: string) => {
     const commands = [
         new SlashCommandBuilder()
             .setName("wikipedia")
@@ -43,8 +34,16 @@ const registerCommands = async () => {
 };
 
 const main = async () => {
+    const clientId = process.env["WIKIPEDIAN_CLIENT_ID"];
+    const token = process.env["WIKIPEDIAN_TOKEN"];
+
+    if (!clientId || !token) {
+        console.error("WIKIPEDIAN_CLIENT_ID and WIKIPEDIAN_TOKEN must be set");
+        process.exit(1);
+    }
+
     try {
-        await registerCommands();
+        await registerCommands(clientId, token);
     } catch (e) {
         console.error("コマンド登録失敗:", e);
     }
@@ -65,7 +64,7 @@ const main = async () => {
         }
     });
 
-    client.login(process.env["WIKIPEDIAN_TOKEN"]);
+    client.login(token);
 };
 
 const wikipedia_command = async (
