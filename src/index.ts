@@ -31,7 +31,11 @@ const registerCommands = async () => {
 };
 
 const main = async () => {
-    await registerCommands();
+    try {
+        await registerCommands();
+    } catch (e) {
+        console.error('コマンド登録失敗:', e);
+    }
 
     const client = new Client({ intents: [] });
 

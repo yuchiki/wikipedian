@@ -19,7 +19,7 @@ There is no test framework configured.
 
 The entire bot logic lives in `src/index.ts` as a single-file application:
 
-- **Discord client setup** — creates a Client with `Guilds` intent, listens for `ready` and `interactionCreate` events
+- **Discord client setup** — creates a Client with no gateway intents, listens for `ready` and `interactionCreate` events
 - **`wikipedia_command(interaction)`** — extracts `word` and `language` options from the slash command, splits comma-separated languages, and calls `search_wikipedia()` for each language in parallel via `Promise.all()`
 - **`search_wikipedia(language, word)`** — constructs a Wikipedia URL (`https://{lang}.wikipedia.org/wiki/{word}`), fetches the page, parses HTML with Cheerio (`.mw-parser-output p:eq(0)` and `p:eq(1)`), strips citation markers, and returns a formatted result
 
