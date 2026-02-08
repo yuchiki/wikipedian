@@ -44,11 +44,7 @@ WIKIPEDIAN_TOKEN=先ほどメモしたトークン
 
 `docker pull ghcr.io/yuchiki/wikipedian/wikipedian:latest` を実行。
 
-### アプリを動かす
-
 `docker run  --env-file=.env ghcr.io/yuchiki/wikipedian/wikipedian` と打つ
-
-コマンド登録はアプリ起動時に自動で行われます。
 
 ## 実行(dockerを用いない場合)
 
@@ -60,8 +56,4 @@ node.js が入っている必要がある
 2. 生成されたrepository内で`npm install`する
 3. さらに `npm run tsc` する
 
-### アプリを動かす
-
 `npm run start &` と打つなど
-
-コマンド登録はアプリ起動時に自動で行われます。
