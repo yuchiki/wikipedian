@@ -24,24 +24,7 @@ spec:
               name: wikipedian-secret
               key: WIKIPEDIAN_TOKEN
         - name: WIKIPEDIAN_CLIENT_ID
-      initContainers:
-      - name: wikipedian-register-command
-        image: ghcr.io/yuchiki/wikipedian/wikipedian
-        image: ghcr.io/yuchiki/wikipedian/wikipedian
-        env:
-        - name: WIKIPEDIAN_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: wikipedian-secret
-              key: WIKIPEDIAN_TOKEN
-        - name: WIKIPEDIAN_CLIENT_ID
           valueFrom:
             secretKeyRef:
               name: wikipedian-secret
               key: WIKIPEDIAN_CLIENT_ID
-        - name: WIKIPEDIAN_GUILD_IDS
-          valueFrom:
-            secretKeyRef:
-              name: wikipedian-secret
-              key: WIKIPEDIAN_GUILD_IDS
-        args: ['register_commands']

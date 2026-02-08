@@ -1,10 +1,38 @@
 require('dotenv').config();
 
-import { CommandInteraction, ChatInputCommandInteraction, Client, CacheType } from 'discord.js';
+import { ChatInputCommandInteraction, Client, CacheType, REST, Routes, SlashCommandBuilder } from 'discord.js';
 import { load } from 'cheerio';
 
 
-const main = () => {
+const registerCommands = async () => {
+    const clientId = process.env.WIKIPEDIAN_CLIENT_ID;
+    const token = process.env.WIKIPEDIAN_TOKEN;
+
+    if (!clientId || !token) {
+        throw new Error('WIKIPEDIAN_CLIENT_ID and WIKIPEDIAN_TOKEN must be set');
+    }
+
+    const commands = [
+        new SlashCommandBuilder()
+            .setName('wikipedia')
+            .setDescription('Search Article from Wikipedia')
+            .addStringOption(option =>
+                option.setName("word")
+                    .setDescription("検索語")
+                    .setRequired(true))
+            .addStringOption(option =>
+                option.setName("languages")
+                    .setDescription("言語('en', 'ja', 'fr', 'en,ja,fr' など。デフォルトはja)")),
+    ].map(command => command.toJSON());
+
+    const rest = new REST({ version: '10' }).setToken(token);
+    await rest.put(Routes.applicationCommands(clientId), { body: commands });
+    console.log('コマンド登録完了');
+};
+
+const main = async () => {
+    await registerCommands();
+
     const client = new Client({ intents: [] });
 
     client.once('ready', () => {

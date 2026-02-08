@@ -44,16 +44,11 @@ WIKIPEDIAN_TOKEN=先ほどメモしたトークン
 
 `docker pull ghcr.io/yuchiki/wikipedian/wikipedian:latest` を実行。
 
-### コマンド登録
-
-`docker run  --env-file=.env ghcr.io/yuchiki/wikipedian/wikipedian register_commands` と打つ
-    - 「Successfully registered application commands.」　と表示されればOK
-
-(kubernetes なら init container にすればよさそう)
-
 ### アプリを動かす
 
 `docker run  --env-file=.env ghcr.io/yuchiki/wikipedian/wikipedian` と打つ
+
+コマンド登録はアプリ起動時に自動で行われます。
 
 ## 実行(dockerを用いない場合)
 
@@ -65,10 +60,8 @@ node.js が入っている必要がある
 2. 生成されたrepository内で`npm install`する
 3. さらに `npm run tsc` する
 
-### コマンド登録
-
-`npm run register_commands` と打つ
-
 ### アプリを動かす
 
 `npm run start &` と打つなど
+
+コマンド登録はアプリ起動時に自動で行われます。
