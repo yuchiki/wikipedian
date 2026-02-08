@@ -1,11 +1,9 @@
-FROM node:19
+FROM oven/bun:1
 WORKDIR /work
-COPY tsconfig.json .
 COPY package.json .
-COPY package-lock.json .
+COPY bun.lock .
 COPY src/index.ts src/
-RUN npm install
-RUN npm run tsc
+RUN bun install --frozen-lockfile
 
-ENTRYPOINT ["npm", "run"]
-CMD ["start"]
+ENTRYPOINT ["bun", "run"]
+CMD ["src/index.ts"]
