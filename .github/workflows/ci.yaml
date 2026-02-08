@@ -5,6 +5,12 @@ on:
   pull_request:
     branches: [main]
 jobs:
+  actionlint:
+    name: Lint GitHub Actions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rhysd/actionlint@v1
   check:
     name: Lint, Format & Typecheck
     runs-on: ubuntu-latest
