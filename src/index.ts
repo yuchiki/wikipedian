@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 import { load } from "cheerio";
 import {
     type CacheType,

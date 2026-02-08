@@ -45,14 +45,13 @@ docker run --env-file=.env ghcr.io/yuchiki/wikipedian/wikipedian
 1. `kubectl create secret generic wikipedian-secret --from-env-file=.env` で Secret を作成
 2. `kubectl apply -f` [manifests/wikipedian.yaml](/manifests/wikipedian.yaml) で deploy
 
-### Node.js の場合
+### Bun の場合
 
-Node.js 18 以上が必要。
+Bun がインストールされている必要がある。
 
 ```sh
 git clone https://github.com/yuchiki/wikipedian.git
 cd wikipedian
-npm install
-npm run tsc
-npm run start
+bun install
+bun run start
 ```

@@ -4,16 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Wikipedian is a Discord bot that provides a `/wikipedia` slash command for searching Wikipedia articles. It supports multiple languages (defaults to Japanese) and returns the first two paragraphs of matching articles. Written in TypeScript using Discord.js v14 and Cheerio for HTML parsing.
+Wikipedian is a Discord bot that provides a `/wikipedia` slash command for searching Wikipedia articles. It supports multiple languages (defaults to Japanese) and returns the first two paragraphs of matching articles. Written in TypeScript using Discord.js v14 and Cheerio for HTML parsing. Runs on the Bun runtime.
 
 ## Build & Run Commands
 
-- `npm install` — install dependencies
-- `npm run tsc` — compile TypeScript (src/ → dist/)
-- `npm run start` — run the bot (`node dist/index.js`)
-- `npm run format` — format code with Biome (`biome format --write src/`)
-- `npm run lint` — lint code with Biome (`biome lint src/`)
-- `npm run check` — format + lint in one pass with Biome (`biome check --write src/`)
+- `bun install` — install dependencies
+- `bun run start` — run the bot (`bun run src/index.ts`)
+- `bun run format` — format code with Biome (`biome format --write src/`)
+- `bun run lint` — lint code with Biome (`biome lint src/`)
+- `bun run check` — format + lint in one pass with Biome (`biome check --write src/`)
 - Slash commands are automatically registered on bot startup (requires `.env` with `WIKIPEDIAN_CLIENT_ID` and `WIKIPEDIAN_TOKEN`)
 
 There is no test framework configured. Biome is used for formatting and linting.
@@ -30,6 +29,6 @@ Command registration is integrated into the bot startup via `registerCommands()`
 
 ## Environment
 
-- Requires Node.js 18+ (uses built-in `fetch()`)
-- Secrets go in `.env` (git-ignored): `WIKIPEDIAN_CLIENT_ID`, `WIKIPEDIAN_TOKEN`
-- Deployment options: Kubernetes (`manifests/wikipedian.yaml`), Docker (`Dockerfile`), or direct Node.js
+- Requires Bun runtime
+- `.env` is auto-loaded by Bun (no dotenv needed): `WIKIPEDIAN_CLIENT_ID`, `WIKIPEDIAN_TOKEN`
+- Deployment options: Kubernetes (`manifests/wikipedian.yaml`), Docker (`Dockerfile`), or direct Bun
