@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-import { CommandInteraction, Client, CacheType } from 'discord.js';
+import { CommandInteraction, ChatInputCommandInteraction, Client, CacheType } from 'discord.js';
 import { load } from 'cheerio';
 
 
@@ -16,7 +16,7 @@ const main = () => {
 
         const { commandName } = interaction;
 
-        if (commandName === 'wikipedia') {
+        if (commandName === 'wikipedia' && interaction.isChatInputCommand()) {
             wikipedia_command(interaction);
         }
     });
@@ -24,7 +24,7 @@ const main = () => {
     client.login(process.env.WIKIPEDIAN_TOKEN);
 };
 
-const wikipedia_command = async (interaction: CommandInteraction<CacheType>) => {
+const wikipedia_command = async (interaction: ChatInputCommandInteraction<CacheType>) => {
     const raw_word = interaction.options.get("word")?.value?.toString();
     const languages = (interaction.options.get("languages")?.value?.toString() ?? "ja").split(",");
 
@@ -33,7 +33,7 @@ const wikipedia_command = async (interaction: CommandInteraction<CacheType>) => 
         return;
     }
 
-    interaction.reply((await Promise.all(languages.map(language => search_wikipedia(language, raw_word)))).join("\n"));
+    interaction.reply((await Promise.all(languages.map((language: string) => search_wikipedia(language, raw_word)))).join("\n"));
 
 }
 
