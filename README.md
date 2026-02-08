@@ -10,50 +10,49 @@ Wikipedia　を検索する discord スラッシュコマンド。
 - `/wikipedia word: Taylor Swift languages: en` : 「Taylor Swift」を英語版 Wikipediaで検索した結果を表示
 - `/wikipedia word: Taylor Swift languages: en,fr` : 「Taylor Swift」を英語版とフランス語版 Wikipedia で検索した結果を表示
 
-# インストール手順
+# セットアップ
 
-## 実行要件
+## 1. Discord Application の作成
 
-以下のどちらかが必要
+1. [Discord Developer Portal](https://discord.com/developers/applications) から Application を作成する
+2. General Information タブから `APPLICATION ID` をメモする
+3. Bot タブから `Reset Token` を押してトークンを生成し、メモする
+4. OAuth2 タブの URL Generator から `applications.commands` と `bot` にチェックを入れてURLを生成する
+5. 生成されたURLに飛び、追加するサーバーを選んで Application を追加する
 
-- node.jsが動かせるサーバー
-- dockerが動かせるサーバー
+## 2. `.env` ファイルの作成
 
-## 秘匿情報の取得
-
-1. [discord のapplication 管理リンク](https://discord.com/developers/applications)から、application を作成する。
-2. 以下の情報をメモする
-    - 作ったapplicationのGeneral Informationタブに書かれている `application id` を押すと得られる `クライアントID`
-    - 作ったapplicationの OAuth2タブの Client Secretの下の`Reset Secret`を押すと生成できる `トークン`
-2. OAuth タブの URL Generatorから、`applicaitons.commands` にチェックを入れてURLを生成し、そのURLに飛ぶ
-3. 追加するサーバーを選び、applicationを追加する。
-4. repository内に以下の内容の.envファイルを作成する
+リポジトリのルートに `.env` ファイルを作成する:
 
 ```env
-WIKIPEDIAN_CLIENT_ID=先ほどメモしたクライアントID
-WIKIPEDIAN_TOKEN=先ほどメモしたトークン
+WIKIPEDIAN_CLIENT_ID=メモしたAPPLICATION ID
+WIKIPEDIAN_TOKEN=メモしたトークン
 ```
 
-## 実行(kubernetes を用いる場合)
+## 3. 実行
 
-1. `kubectl create secret generic wikipedian-secret --from-env-file=../.env` でsecretを作成
+以下のいずれかの方法で実行する。
 
-2. [manifests/wikipedian.yaml](/manifests/wikipedian.yaml)を `kubectl apply -f wikipedian.yaml` でdeploy
+### Docker の場合
 
-## 実行(docker を用いる場合)
+```sh
+docker pull ghcr.io/yuchiki/wikipedian/wikipedian:latest
+docker run --env-file=.env ghcr.io/yuchiki/wikipedian/wikipedian
+```
 
-`docker pull ghcr.io/yuchiki/wikipedian/wikipedian:latest` を実行。
+### Kubernetes の場合
 
-`docker run  --env-file=.env ghcr.io/yuchiki/wikipedian/wikipedian` と打つ
+1. `kubectl create secret generic wikipedian-secret --from-env-file=.env` で Secret を作成
+2. `kubectl apply -f` [manifests/wikipedian.yaml](/manifests/wikipedian.yaml) で deploy
 
-## 実行(dockerを用いない場合)
+### Node.js の場合
 
-node.js が入っている必要がある
+Node.js 18 以上が必要。
 
-### repositoryの初期化
-
-1. このrepositoryを動かしたいマシンで `git clone https://github.com/yuchiki/wikipedian.git` する。
-2. 生成されたrepository内で`npm install`する
-3. さらに `npm run tsc` する
-
-`npm run start &` と打つなど
+```sh
+git clone https://github.com/yuchiki/wikipedian.git
+cd wikipedian
+npm install
+npm run tsc
+npm run start
+```
