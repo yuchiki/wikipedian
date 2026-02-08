@@ -9,8 +9,8 @@ import {
 } from "discord.js";
 
 const registerCommands = async () => {
-    const clientId = process.env.WIKIPEDIAN_CLIENT_ID;
-    const token = process.env.WIKIPEDIAN_TOKEN;
+    const clientId = process.env["WIKIPEDIAN_CLIENT_ID"];
+    const token = process.env["WIKIPEDIAN_TOKEN"];
 
     if (!clientId || !token) {
         throw new Error(
@@ -65,7 +65,7 @@ const main = async () => {
         }
     });
 
-    client.login(process.env.WIKIPEDIAN_TOKEN);
+    client.login(process.env["WIKIPEDIAN_TOKEN"]);
 };
 
 const wikipedia_command = async (
