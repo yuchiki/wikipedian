@@ -10,12 +10,12 @@ Wikipedia　を検索する discord スラッシュコマンド。
 - `/wikipedia word: Taylor Swift languages: en` : 「Taylor Swift」を英語版 Wikipediaで検索した結果を表示
 - `/wikipedia word: Taylor Swift languages: en,fr` : 「Taylor Swift」を英語版とフランス語版 Wikipedia で検索した結果を表示
 
-
 # インストール手順
 
 ## 実行要件
 
 以下のどちらかが必要
+
 - node.jsが動かせるサーバー
 - dockerが動かせるサーバー
 
@@ -27,13 +27,10 @@ Wikipedia　を検索する discord スラッシュコマンド。
     - 作ったapplicationの OAuth2タブの Client Secretの下の`Reset Secret`を押すと生成できる `トークン`
 2. OAuth タブの URL Generatorから、`applicaitons.commands` にチェックを入れてURLを生成し、そのURLに飛ぶ
 3. 追加するサーバーを選び、applicationを追加する。
-4. 以下の情報をメモする
-    - discordを開き、当該サーバーのアイコンを右クリックして出てくる `IDをコピー`というメニューを押すと得られる `サーバー ID`
-5. repository内に以下の内容の.envファイルを作成する
+4. repository内に以下の内容の.envファイルを作成する
 
 ```env
 WIKIPEDIAN_CLIENT_ID=先ほどメモしたクライアントID
-WIKIPEDIAN_GUILD_IDS=先ほどメモしたサーバーID　（複数のサーバーにapplicationを追加した場合は、空白を入れない「,」区切りで羅列する）
 WIKIPEDIAN_TOKEN=先ほどメモしたトークン
 ```
 
@@ -58,11 +55,9 @@ WIKIPEDIAN_TOKEN=先ほどメモしたトークン
 
 `docker run  --env-file=.env ghcr.io/yuchiki/wikipedian/wikipedian` と打つ
 
-
-
 ## 実行(dockerを用いない場合)
-node.js が入っている必要がある
 
+node.js が入っている必要がある
 
 ### repositoryの初期化
 
@@ -73,7 +68,6 @@ node.js が入っている必要がある
 ### コマンド登録
 
 `npm run register_commands` と打つ
-    - 「Successfully registered application commands.」　と表示されればOK
 
 ### アプリを動かす
 
