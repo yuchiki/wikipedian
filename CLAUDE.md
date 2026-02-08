@@ -11,9 +11,12 @@ Wikipedian is a Discord bot that provides a `/wikipedia` slash command for searc
 - `npm install` — install dependencies
 - `npm run tsc` — compile TypeScript (src/ → dist/)
 - `npm run start` — run the bot (`node dist/index.js`)
+- `npm run format` — format code with Biome (`biome format --write src/`)
+- `npm run lint` — lint code with Biome (`biome lint src/`)
+- `npm run check` — format + lint in one pass with Biome (`biome check --write src/`)
 - Slash commands are automatically registered on bot startup (requires `.env` with `WIKIPEDIAN_CLIENT_ID` and `WIKIPEDIAN_TOKEN`)
 
-There is no test framework configured.
+There is no test framework configured. Biome is used for formatting and linting.
 
 ## Architecture
 
