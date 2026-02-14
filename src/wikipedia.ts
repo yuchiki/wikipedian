@@ -1,6 +1,8 @@
 import { load } from "cheerio";
 
 const LANGUAGE_PATTERN = /^[a-z]{2,20}(-[a-z]{2,20})*$/;
+const PROTOCOL = process.env["WIKIPEDIA_PROTOCOL"] ?? "https";
+const HOST = process.env["WIKIPEDIA_HOST"] ?? "wikipedia.org";
 
 export const search_wikipedia = async (
     language: string,
@@ -11,7 +13,7 @@ export const search_wikipedia = async (
     }
 
     const word = encodeURIComponent(raw_word.replace(/ /g, "_"));
-    const url = `https://${language}.wikipedia.org/wiki/${word}`;
+    const url = `${PROTOCOL}://${language}.${HOST}/wiki/${word}`;
     console.log(`request: ${url}`);
 
     const res = await fetch(url);

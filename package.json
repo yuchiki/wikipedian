@@ -2,11 +2,12 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "bun run src/index.ts",
-    "test": "bun test",
+    "test": "bun test src/",
     "format": "biome format --write src/",
     "lint": "biome lint src/",
     "check": "biome check --write src/",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:docker": "docker compose -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from test-runner"
   },
   "dependencies": {
     "cheerio": "^1.2.0",
