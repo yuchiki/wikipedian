@@ -70,6 +70,23 @@ const main = async () => {
                 );
             } catch (error) {
                 console.error("wikipedia_command failed:", error);
+                try {
+                    const errorMessage =
+                        "エラーが発生しました。もう一度お試しください。";
+                    if (interaction.deferred || interaction.replied) {
+                        await interaction.followUp({
+                            content: errorMessage,
+                            ephemeral: true,
+                        });
+                    } else {
+                        await interaction.reply({
+                            content: errorMessage,
+                            ephemeral: true,
+                        });
+                    }
+                } catch (replyError) {
+                    console.error("Failed to send error response:", replyError);
+                }
             }
         }
     });
