@@ -15,17 +15,19 @@ Wikipedian is a Discord bot that provides a `/wikipedia` slash command for searc
 - `bun run check` — format + lint in one pass with Biome (`biome check --write src/`)
 - Slash commands are automatically registered on bot startup (requires `.env` with `WIKIPEDIAN_CLIENT_ID` and `WIKIPEDIAN_TOKEN`)
 
-There is no test framework configured. Biome is used for formatting and linting.
+- `bun test` — run all unit tests with Bun's built-in test runner (all tests use mocked fetch, no network access)
+
+Biome is used for formatting and linting.
 
 ## Architecture
 
-The entire bot logic lives in `src/index.ts` as a single-file application:
-
-- **Discord client setup** — creates a Client with no gateway intents, listens for `ready` and `interactionCreate` events
-- **`wikipedia_command(interaction)`** — extracts `word` and `language` options from the slash command, splits comma-separated languages, and calls `search_wikipedia()` for each language in parallel via `Promise.all()`
-- **`search_wikipedia(language, word)`** — constructs a Wikipedia URL (`https://{lang}.wikipedia.org/wiki/{word}`), fetches the page, parses HTML with Cheerio (`.mw-parser-output p:eq(0)` and `p:eq(1)`), strips citation markers, and returns a formatted result
-
-Command registration is integrated into the bot startup via `registerCommands()` in `src/index.ts`.
+- **`src/index.ts`** — Discord bot entry point (client setup, command registration, event handlers)
+  - **`registerCommands(clientId, token)`** — registers the `/wikipedia` slash command via Discord REST API
+  - **`wikipedia_command(interaction)`** — extracts `word` and `language` options, splits comma-separated languages, calls `search_wikipedia()` in parallel via `Promise.all()`
+  - **`main()`** — reads env vars, registers commands, creates Discord client, starts the bot. Guarded by `import.meta.main`.
+- **`src/wikipedia.ts`** — core Wikipedia search logic, exported for testing
+  - **`search_wikipedia(language, word)`** — validates the language code against a strict regex to prevent SSRF, constructs a Wikipedia URL with `encodeURIComponent` for the word, fetches the page, parses HTML with Cheerio (`.mw-parser-output p:eq(0)` and `p:eq(1)`), strips citation markers, and returns a formatted result
+- **`src/__tests__/`** — tests using Bun's built-in test runner (`bun:test`)
 
 ## Environment
 
