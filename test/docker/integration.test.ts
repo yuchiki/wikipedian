@@ -1,9 +1,15 @@
 import { describe, expect, test } from "bun:test";
 import { search_wikipedia } from "../../src/wikipedia";
 
+const protocol = process.env["WIKIPEDIA_PROTOCOL"] ?? "https";
+const host = process.env["WIKIPEDIA_HOST"] ?? "wikipedia.org";
+
+const search = (language: string, word: string) =>
+	search_wikipedia(language, word, protocol, host);
+
 describe("Docker integration: search_wikipedia", () => {
 	test("fetches a Japanese article", async () => {
-		const result = await search_wikipedia("ja", "TypeScript");
+		const result = await search("ja", "TypeScript");
 
 		expect(result).toContain('ja: "TypeScript"');
 		expect(result).toContain(
@@ -13,7 +19,7 @@ describe("Docker integration: search_wikipedia", () => {
 	});
 
 	test("fetches an English article", async () => {
-		const result = await search_wikipedia("en", "TypeScript");
+		const result = await search("en", "TypeScript");
 
 		expect(result).toContain('en: "TypeScript"');
 		expect(result).toContain(
@@ -23,20 +29,20 @@ describe("Docker integration: search_wikipedia", () => {
 	});
 
 	test("handles URL-encoded characters", async () => {
-		const result = await search_wikipedia("en", "Bun (software)");
+		const result = await search("en", "Bun (software)");
 
 		expect(result).toContain('en: "Bun (software)"');
 		expect(result).toContain("Bun is a JavaScript runtime.");
 	});
 
 	test("returns not found for nonexistent article", async () => {
-		const result = await search_wikipedia("en", "NonExistentArticle");
+		const result = await search("en", "NonExistentArticle");
 
 		expect(result).toBe('en: "NonExistentArticle" is not found.');
 	});
 
 	test("strips citation markers", async () => {
-		const result = await search_wikipedia("en", "Citations");
+		const result = await search("en", "Citations");
 
 		expect(result).not.toMatch(/\[\d+\]/);
 		expect(result).toContain("Text with citations and more.");
@@ -44,15 +50,15 @@ describe("Docker integration: search_wikipedia", () => {
 	});
 
 	test("rejects invalid language code", async () => {
-		const result = await search_wikipedia("INVALID!", "TypeScript");
+		const result = await search("INVALID!", "TypeScript");
 
 		expect(result).toBe('"INVALID!" is not a valid language code.');
 	});
 
 	test("parallel multi-language lookup", async () => {
 		const results = await Promise.all([
-			search_wikipedia("ja", "TypeScript"),
-			search_wikipedia("en", "TypeScript"),
+			search("ja", "TypeScript"),
+			search("en", "TypeScript"),
 		]);
 
 		expect(results[0]).toContain('ja: "TypeScript"');
