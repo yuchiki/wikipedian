@@ -62,7 +62,15 @@ const main = async () => {
         const { commandName } = interaction;
 
         if (commandName === "wikipedia" && interaction.isChatInputCommand()) {
-            wikipedia_command(interaction, wikipediaProtocol, wikipediaHost);
+            try {
+                await wikipedia_command(
+                    interaction,
+                    wikipediaProtocol,
+                    wikipediaHost,
+                );
+            } catch (error) {
+                console.error("wikipedia_command failed:", error);
+            }
         }
     });
 
