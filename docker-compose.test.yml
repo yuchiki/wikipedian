@@ -2,7 +2,7 @@ services:
   mock-wikipedia:
     build:
       context: .
-      dockerfile: test/docker/Dockerfile.mock-wikipedia
+      dockerfile: integration/docker/Dockerfile.mock-wikipedia
     networks:
       test-net:
         aliases:
@@ -17,7 +17,7 @@ services:
   test-runner:
     build:
       context: .
-      dockerfile: test/docker/Dockerfile.test-runner
+      dockerfile: integration/docker/Dockerfile.test-runner
     environment:
       WIKIPEDIA_PROTOCOL: http
       WIKIPEDIA_HOST: "mock-wikipedia:3000"
