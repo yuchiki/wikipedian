@@ -36,6 +36,8 @@ const registerCommands = async (clientId: string, token: string) => {
 const main = async () => {
     const clientId = process.env["WIKIPEDIAN_CLIENT_ID"];
     const token = process.env["WIKIPEDIAN_TOKEN"];
+    const wikipediaProtocol = process.env["WIKIPEDIA_PROTOCOL"] ?? "https";
+    const wikipediaHost = process.env["WIKIPEDIA_HOST"] ?? "wikipedia.org";
 
     if (!clientId || !token) {
         console.error("WIKIPEDIAN_CLIENT_ID and WIKIPEDIAN_TOKEN must be set");
@@ -60,7 +62,7 @@ const main = async () => {
         const { commandName } = interaction;
 
         if (commandName === "wikipedia" && interaction.isChatInputCommand()) {
-            wikipedia_command(interaction);
+            wikipedia_command(interaction, wikipediaProtocol, wikipediaHost);
         }
     });
 
@@ -69,6 +71,8 @@ const main = async () => {
 
 const wikipedia_command = async (
     interaction: ChatInputCommandInteraction<CacheType>,
+    protocol: string,
+    host: string,
 ) => {
     const raw_word = interaction.options.get("word")?.value?.toString();
     const languages = (
@@ -84,7 +88,7 @@ const wikipedia_command = async (
         (
             await Promise.all(
                 languages.map((language: string) =>
-                    search_wikipedia(language, raw_word),
+                    search_wikipedia(language, raw_word, protocol, host),
                 ),
             )
         ).join("\n"),
