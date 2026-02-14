@@ -15,7 +15,7 @@ Wikipedian is a Discord bot that provides a `/wikipedia` slash command for searc
 - `bun run check` — format + lint in one pass with Biome (`biome check --write src/`)
 - Slash commands are automatically registered on bot startup (requires `.env` with `WIKIPEDIAN_CLIENT_ID` and `WIKIPEDIAN_TOKEN`)
 
-- `bun test` — run all tests (unit + integration) with Bun's built-in test runner
+- `bun test` — run all unit tests with Bun's built-in test runner (all tests use mocked fetch, no network access)
 
 Biome is used for formatting and linting.
 
@@ -26,7 +26,7 @@ Biome is used for formatting and linting.
   - **`wikipedia_command(interaction)`** — extracts `word` and `language` options, splits comma-separated languages, calls `search_wikipedia()` in parallel via `Promise.all()`
   - **`main()`** — reads env vars, registers commands, creates Discord client, starts the bot. Guarded by `import.meta.main`.
 - **`src/wikipedia.ts`** — core Wikipedia search logic, exported for testing
-  - **`search_wikipedia(language, word)`** — constructs a Wikipedia URL (`https://{lang}.wikipedia.org/wiki/{word}`), fetches the page, parses HTML with Cheerio (`.mw-parser-output p:eq(0)` and `p:eq(1)`), strips citation markers, and returns a formatted result
+  - **`search_wikipedia(language, word)`** — validates the language code against a strict regex to prevent SSRF, constructs a Wikipedia URL with `encodeURIComponent` for the word, fetches the page, parses HTML with Cheerio (`.mw-parser-output p:eq(0)` and `p:eq(1)`), strips citation markers, and returns a formatted result
 - **`src/__tests__/`** — tests using Bun's built-in test runner (`bun:test`)
 
 ## Environment

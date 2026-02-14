@@ -93,14 +93,21 @@ describe("search_wikipedia", () => {
         expect(result).toBe('en: "Forbidden": error code 403');
     });
 
-    test("handles empty mw-parser-output with no paragraphs", async () => {
+    test("returns empty message when no paragraphs found", async () => {
         const html = '<div class="mw-parser-output"></div>';
         mockFetch(200, html);
 
         const result = await search_wikipedia("en", "Empty");
 
-        expect(result).toContain('en: "Empty"');
-        expect(result).toContain("https://en.wikipedia.org/wiki/Empty");
+        expect(result).toBe('en: "Empty": empty.');
+    });
+
+    test("returns not found message on empty HTML body", async () => {
+        mockFetch(200, "");
+
+        const result = await search_wikipedia("en", "Blank");
+
+        expect(result).toBe('en: "Blank" is not found.');
     });
 
     test("works with different language codes", async () => {
@@ -115,5 +122,47 @@ describe("search_wikipedia", () => {
         expect(fn).toHaveBeenCalledWith("https://fr.wikipedia.org/wiki/Test");
         expect(result).toStartWith('fr: "Test"');
         expect(result).toContain("https://fr.wikipedia.org/wiki/Test");
+    });
+
+    test("rejects invalid language codes to prevent SSRF", async () => {
+        const result = await search_wikipedia("evil.com#", "Test");
+        expect(result).toBe('"evil.com#" is not a valid language code.');
+    });
+
+    test("rejects language codes with special characters", async () => {
+        const result = await search_wikipedia("en/../../", "Test");
+        expect(result).toBe('"en/../../" is not a valid language code.');
+    });
+
+    test("rejects uppercase language codes", async () => {
+        const result = await search_wikipedia("EN", "Test");
+        expect(result).toBe('"EN" is not a valid language code.');
+    });
+
+    test("accepts hyphenated language codes", async () => {
+        const html = `<div class="mw-parser-output">
+            <p>Content.</p>
+            <p>More.</p>
+        </div>`;
+        const fn = mockFetch(200, html);
+
+        const result = await search_wikipedia("zh-min-nan", "Test");
+
+        expect(fn).toHaveBeenCalledWith(
+            "https://zh-min-nan.wikipedia.org/wiki/Test",
+        );
+        expect(result).toContain('zh-min-nan: "Test"');
+    });
+
+    test("encodes special characters in word", async () => {
+        const html = `<div class="mw-parser-output">
+            <p>Content.</p>
+            <p>More.</p>
+        </div>`;
+        const fn = mockFetch(200, html);
+
+        await search_wikipedia("en", "C#");
+
+        expect(fn).toHaveBeenCalledWith("https://en.wikipedia.org/wiki/C%23");
     });
 });
