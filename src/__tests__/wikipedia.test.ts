@@ -125,18 +125,24 @@ describe("search_wikipedia", () => {
     });
 
     test("rejects invalid language codes to prevent SSRF", async () => {
+        const fn = mockFetch(200, "");
         const result = await search_wikipedia("evil.com#", "Test");
         expect(result).toBe('"evil.com#" is not a valid language code.');
+        expect(fn).not.toHaveBeenCalled();
     });
 
     test("rejects language codes with special characters", async () => {
+        const fn = mockFetch(200, "");
         const result = await search_wikipedia("en/../../", "Test");
         expect(result).toBe('"en/../../" is not a valid language code.');
+        expect(fn).not.toHaveBeenCalled();
     });
 
     test("rejects uppercase language codes", async () => {
+        const fn = mockFetch(200, "");
         const result = await search_wikipedia("EN", "Test");
         expect(result).toBe('"EN" is not a valid language code.');
+        expect(fn).not.toHaveBeenCalled();
     });
 
     test("accepts hyphenated language codes", async () => {
