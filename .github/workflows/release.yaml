@@ -12,10 +12,10 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
-      - name: Log in to GitHub Docker Registry
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@dd4fa0671be5250ee6f50aedf4cb05514abda2c7 # v1
         with:
-          registry: docker.pkg.github.com
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Get tag
@@ -26,5 +26,5 @@ jobs:
         with:
           push: true
           tags: |
-            docker.pkg.github.com/${{ github.repository }}/wikipedian:${{ steps.get_tag.outputs.TAG }}
-            docker.pkg.github.com/${{ github.repository }}/wikipedian:latest
+            ghcr.io/${{ github.repository }}/wikipedian:${{ steps.get_tag.outputs.TAG }}
+            ghcr.io/${{ github.repository }}/wikipedian:latest
