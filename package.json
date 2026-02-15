@@ -7,7 +7,9 @@
     "lint": "biome lint src/",
     "check": "biome check --write src/",
     "typecheck": "tsc --noEmit",
-    "test:docker": "docker compose -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from test-runner"
+    "test:docker": "docker compose -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from test-runner",
+    "docker:build": "docker build -t wikipedian .",
+    "docker:run": "bun run docker:build && docker run --env-file .env wikipedian"
   },
   "dependencies": {
     "cheerio": "^1.2.0",
