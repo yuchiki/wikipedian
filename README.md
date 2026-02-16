@@ -36,8 +36,8 @@ WIKIPEDIAN_TOKEN=メモしたトークン
 ### Docker の場合
 
 ```sh
-docker pull ghcr.io/yuchiki/wikipedian/wikipedian:latest
-docker run --env-file=.env ghcr.io/yuchiki/wikipedian/wikipedian
+docker pull ghcr.io/yuchiki/wikipedian:latest
+docker run --env-file=.env ghcr.io/yuchiki/wikipedian
 ```
 
 ### Kubernetes の場合

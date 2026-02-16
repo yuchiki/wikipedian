@@ -4,16 +4,16 @@ on:
     types: [published]
 jobs:
   push_to_registry:
-    name: Push Docker image to GitHub Packages
+    name: Push Docker image to GHCR
     runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
     steps:
       - name: Check out the repo
-        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@dd4fa0671be5250ee6f50aedf4cb05514abda2c7 # v1
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -21,10 +21,11 @@ jobs:
       - name: Get tag
         id: get_tag
         run: echo "TAG=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
-      - name: Build container image
-        uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a # v2
+      - name: Build and push container image
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
+          context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/wikipedian:${{ steps.get_tag.outputs.TAG }}
-            ghcr.io/${{ github.repository }}/wikipedian:latest
+            ghcr.io/${{ github.repository }}:${{ steps.get_tag.outputs.TAG }}
+            ghcr.io/${{ github.repository }}:latest
