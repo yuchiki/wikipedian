@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: wikipedian
-        image: ghcr.io/yuchiki/wikipedian/wikipedian
+        image: ghcr.io/yuchiki/wikipedian
         env:
         - name: WIKIPEDIAN_TOKEN
           valueFrom:
